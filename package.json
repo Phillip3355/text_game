@@ -12,7 +12,8 @@
     "test:e2e": "playwright test",
     "simulate": "tsx scripts/simulate.ts",
     "media": "python3 -I scripts/media/build_media.py",
-    "check": "tsc -b && vitest run"
+    "check": "tsc -b && vitest run",
+    "randomness": "tsx scripts/randomness.ts"
   },
   "dependencies": {
     "@fontsource/noto-serif-kr": "^5.3.1",

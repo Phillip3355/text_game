@@ -236,10 +236,14 @@ export function advance(state: GameState, content: Content): GameState {
   let s: GameState = { ...state, slotIndex: Math.min(LAST_SLOT_INDEX, state.slotIndex + (ev?.duration ?? 1)) }
   const newDay = dayOf(s.slotIndex) !== prevDay
   let dayNote: string | null = null
+  if (ev?.endLocation && content.locations[ev.endLocation.location]) {
+    s = { ...s, location: ev.endLocation.location }
+    dayNote = ev.endLocation.note
+  }
   if (newDay) {
     const before = s.stamina
     s = { ...s, stamina: Math.min(STAMINA_MAX, s.stamina + OVERNIGHT_RECOVERY) }
-    dayNote = `숙소에서 하룻밤을 푹 쉬었다. (체력 +${s.stamina - before}) 상하이에서의 ${dayOf(s.slotIndex)}일째 아침이 밝았다.`
+    dayNote = (dayNote ? dayNote + '\n\n' : '') + `숙소에서 하룻밤을 푹 쉬었다. (체력 +${s.stamina - before}) 상하이에서의 ${dayOf(s.slotIndex)}일째 아침이 밝았다.`
   }
   return scheduleNext(s, content, dayNote)
 }
@@ -339,7 +343,7 @@ export function chooseDestination(state: GameState, content: Content, eventId: s
     eligible(state, dest, state.slotIndex + 1)
   ) {
     const r = nextRandom(state.rng)
-    if (r.value < 0.35) {
+    if (state.log.length > 1 && r.value < 0.25) {
       const s: GameState = { ...state, rng: r.state, queue: [eventId, ...state.queue.filter((q) => q !== eventId)] }
       const metroNote = joinNotes(state.travelNote, `${content.locations[dest.location]?.name ?? ''}에 가려고 지하철역으로 내려갔다.`)
       return startEvent(applyEffects(s, { money: plan.money }).state, content, METRO_EVENT, metroNote)

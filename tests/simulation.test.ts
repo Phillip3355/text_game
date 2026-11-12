@@ -66,4 +66,19 @@ describe('auto-play simulation', () => {
       expect(seen.has(e.id), e.id).toBe(true)
     }
   })
+
+  it('journeys are varied: different seeds give different routes and no slot is dominated', () => {
+    // strategies that always pick the 'best' option converge by design; judge variety on random play
+    // (the simulation reuses the same seeds for each traveler, so compare within a traveler)
+    for (const t of travelers) {
+      const random = results.filter((x) => x.st === 'random' && x.t === t)
+      const routes = new Set(random.map((x) => x.r.events.join('>')))
+      expect(routes.size, t).toBeGreaterThan(random.length * 0.9)
+    }
+    // apart from the fixed first/last events, no single event should open most journeys
+    const second = new Map<string, number>()
+    for (const { r } of results) second.set(r.events[1], (second.get(r.events[1]) ?? 0) + 1)
+    const top = Math.max(...second.values()) / results.length
+    expect(top).toBeLessThan(0.35)
+  })
 })

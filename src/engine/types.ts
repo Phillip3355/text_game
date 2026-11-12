@@ -105,6 +105,8 @@ export interface GameEvent {
   weight?: number
   /** 이 사건이 소모하는 슬롯 수 (먼 곳: 2) */
   duration?: number
+  /** 사건이 끝난 뒤 머무는 장소 (예: 도착 후 숙소 근처). 방문 기록에는 남기지 않는다 */
+  endLocation?: { location: string; note: string }
   /** media id 목록. 첫 번째가 대표 도판 */
   media: string[]
   /** 영상 media id (있으면 도판 자리에 재생, 실패 시 media[0]) */

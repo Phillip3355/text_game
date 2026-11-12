@@ -9,6 +9,7 @@ export const E01: GameEvent = {
   location: 'pudong_airport',
   kind: 'fixed',
   category: 'transport',
+  endLocation: { location: 'peoples_square', note: '인민광장 근처 숙소에 짐을 풀었다. 여기서부터 상하이 여행이 시작된다.' },
   video: 'video-maglev',
   media: ['airport-1', 'airport-2', 'airport-3'],
   facts: ['f_maglev', 'f_mandarin'],
