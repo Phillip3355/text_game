@@ -1,0 +1,163 @@
+@import 'tailwindcss';
+@import '@fontsource/noto-serif-kr/400.css';
+@import '@fontsource/noto-serif-kr/600.css';
+
+/* ── 종이와 잉크 ─────────────────────────────────────────── */
+:root {
+  --paper: #f5f0e6;
+  --paper-deep: #ece5d7;
+  --ink: #2a2521;
+  --ink-soft: #5a5149;
+  --ink-faint: #8a8076;
+  --rule: #d8cebd;
+  --seal: #a3352b;
+  --seal-soft: #a3352b1a;
+  --ok: #3f6b4a;
+  --text-scale: 1;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper: #1c1a17;
+    --paper-deep: #24211d;
+    --ink: #e6ded1;
+    --ink-soft: #b9afa1;
+    --ink-faint: #8a8174;
+    --rule: #3a352e;
+    --seal: #d06a5c;
+    --seal-soft: #d06a5c22;
+    --ok: #8fbf98;
+    color-scheme: dark;
+  }
+}
+
+/* 넓은 화면(가로 화면 폰, 펼친 폴드, 태블릿 가로, 데스크톱): 두 쪽 펼침면 */
+@custom-variant wide (@media (min-width: 640px) and (min-aspect-ratio: 4/5));
+
+@theme {
+  --font-serif: 'Noto Serif KR', 'Nanum Myeongjo', 'Batang', 'Songti SC', serif;
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-seal: var(--seal);
+  --color-seal-soft: var(--seal-soft);
+  --color-ok: var(--ok);
+}
+
+@layer base {
+html {
+  font-size: calc(17px * var(--text-scale));
+  -webkit-text-size-adjust: 100%;
+}
+html[data-text='small'] { --text-scale: 0.9; }
+html[data-text='large'] { --text-scale: 1.15; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  line-height: 1.85;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+
+}
+
+@layer components {
+/* the page: a single, book-width column */
+.page {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 6rem;
+}
+@media (min-width: 640px) {
+  .page { padding: 2.5rem 2rem 7rem; }
+}
+
+.prose-book p { margin: 0 0 1.1em; text-indent: 1em; }
+.prose-book p.noindent { text-indent: 0; }
+
+.small-caps { letter-spacing: 0.18em; font-size: 0.72rem; text-transform: uppercase; }
+
+.rule { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+.ornament { text-align: center; color: var(--ink-faint); letter-spacing: 1em; margin: 2rem 0; }
+
+/* plates (photos) */
+.plate img, .plate video { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; background: var(--paper-deep); }
+.plate figcaption { font-size: 0.72rem; color: var(--ink-faint); line-height: 1.5; margin-top: 0.4rem; }
+
+/* spread: one column on phones, two facing pages on wide screens */
+.spread { display: flex; flex-direction: column; }
+.spread > .leaf { display: contents; }
+@media (min-width: 640px) and (min-aspect-ratio: 4/5) {
+  .page-wide { max-width: 78rem; }
+  .spread { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 3rem; align-items: start; }
+  .spread > .leaf { display: block; }
+  .spread > .leaf-left {
+    position: sticky; top: 1rem; max-height: calc(100svh - 2rem); overflow-y: auto;
+    padding-right: 0.25rem; scrollbar-width: thin;
+  }
+  .spread > .leaf-right { border-left: 1px solid var(--rule); padding-left: 3rem; min-height: calc(100svh - 8rem); }
+  .spread .plate img, .spread .plate video { max-height: 42svh; }
+  /* cover-like screens: both pages vertically centred, no sticky */
+  .spread-center { align-items: center; min-height: calc(100svh - 8rem); }
+  .spread-center > .leaf-left { position: static; max-height: none; overflow: visible; }
+  .spread-center > .leaf-right { min-height: 0; }
+  .spread-center .plate img, .spread-center .plate video { max-height: 70svh; }
+}
+@media (min-width: 640px) and (min-aspect-ratio: 4/5) and (max-height: 520px) {
+  .spread .plate img, .spread .plate video { max-height: 34svh; }
+  .spread .plate figcaption { margin-top: 0.2rem; }
+}
+
+/* page turn */
+.fade-in { animation: fade 0.45s ease both; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+html[data-motion='reduce'] .fade-in { animation: none; }
+@media (prefers-reduced-motion: reduce) { .fade-in { animation: none; } }
+
+}
+
+@layer base {
+button { font-family: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--seal); outline-offset: 3px; }
+}
+
+@layer components {
+
+.link {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule);
+  text-underline-offset: 0.25em; text-decoration-thickness: 1px;
+}
+.link:hover { text-decoration-color: var(--seal); color: var(--seal); }
+
+/* buttons: thin ruled boxes, always-readable ink text */
+.btn {
+  min-height: 2.75rem; padding: 0.5rem 1.25rem; cursor: pointer;
+  border: 1px solid var(--rule); background: transparent; color: var(--ink);
+  font-size: 0.95rem; transition: border-color .15s, color .15s;
+}
+.btn:hover:not(:disabled) { border-color: var(--seal); color: var(--seal); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { border: 1.5px solid var(--ink); font-weight: 600; }
+.btn-on { border: 1.5px solid var(--ink); font-weight: 600; background: var(--paper-deep); }
+}
+
+/* ── print: the diary becomes a book ───────────────────── */
+@media print {
+  :root { --paper: #fff; --ink: #000; --ink-soft: #333; --ink-faint: #555; --rule: #bbb; --seal: #8a2a22; }
+  .no-print { display: none !important; }
+  .page { max-width: none; padding: 0; }
+  .print-break { break-before: page; }
+  .plate { break-inside: avoid; }
+  .spread { display: flex !important; flex-direction: column; }
+  .spread > .leaf { display: contents !important; }
+  body { font-size: 11pt; }
+}
