@@ -2,7 +2,8 @@ import type { Content, GameEvent } from '../engine/types'
 import { E01, E20, E21, E22 } from './events/core'
 import { E07, E17, E18, E19 } from './events/encounters'
 import { E05, E11, E16, E23, E24 } from './events/food'
-import { E02, E03, E04, E06, E08, E09, E10, E12, E13, E14, E15, E25 } from './events/sights'
+import { E02, E02B, E04, E04B, E04C, E08, E08B, E08C, E12, E13, E13B, E13C, E14, E14B, E14C } from './events/landmarks'
+import { E03, E06, E09, E10, E15, E25 } from './events/sights'
 import { facts } from './facts'
 import { media } from './media'
 import { achievements, endings, items, locations, tagLabels, travelers } from './world'
@@ -10,7 +11,12 @@ import { achievements, endings, items, locations, tagLabels, travelers } from '.
 const eventList: GameEvent[] = [
   E01, E02, E03, E04, E05, E06, E07, E08, E09, E10, E11, E12, E13,
   E14, E15, E16, E17, E18, E19, E20, E21, E22, E23, E24, E25,
+  // 주요 명소 아크의 이어지는 장면들 (landmarks.ts)
+  E02B, E04B, E04C, E08B, E08C, E13B, E13C, E14B, E14C,
 ]
+
+/** 등록 순서 그대로의 사건 목록 (id 중복 검사용) */
+export const eventIds: string[] = eventList.map((e) => e.id)
 
 // media → events back-references (for the credits screen)
 for (const e of eventList) {

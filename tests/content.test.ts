@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { content } from '../src/content'
-import type { Condition, Effects, GameEvent } from '../src/engine'
+import { content, eventIds } from '../src/content'
+import { choiceAvailability, newGame } from '../src/engine'
+import type { Condition, Effects, GameEvent, GameState } from '../src/engine'
 
 const events = Object.values(content.events)
 
@@ -76,6 +77,51 @@ describe('content integrity', () => {
     const last = [...content.endings].sort((a, b) => a.priority - b.priority).at(-1)!
     expect(last.when ?? []).toHaveLength(0)
     expect(last.minScore).toBeUndefined()
+  })
+})
+
+describe('landmark arcs', () => {
+  // 첫 장 → 이어지는 두 장 (followUp으로 연결)
+  const arcs: Record<string, string[]> = {
+    E02: ['E02B', 'E12'],
+    E04: ['E04B', 'E04C'],
+    E08: ['E08B', 'E08C'],
+    E13: ['E13B', 'E13C'],
+    E14: ['E14B', 'E14C'],
+  }
+
+  it('event ids are unique', () => {
+    expect(new Set(eventIds).size).toBe(eventIds.length)
+  })
+
+  it.each(Object.entries(arcs))('%s spans three cards linked by followUp, and can also end early', (start, rest) => {
+    const seen = new Set([start])
+    const queue = [start]
+    while (queue.length) {
+      for (const fx of effectsOf(content.events[queue.shift()!])) {
+        if (fx.followUp && rest.includes(fx.followUp) && !seen.has(fx.followUp)) {
+          seen.add(fx.followUp)
+          queue.push(fx.followUp)
+        }
+      }
+    }
+    for (const id of rest) expect(seen.has(id), `${start} → ${id}`).toBe(true)
+    expect(content.events[start].kind).toBe('destination')
+    expect(content.events[start].choices.some((c) => !c.success.effects?.followUp), `${start} has a choice that ends the visit`).toBe(true)
+  })
+
+  it('order matters: an item from a later card unlocks a choice in an earlier one', () => {
+    const avail = (s: GameState, ev: string, choice: string) =>
+      choiceAvailability(s, content.events[ev].choices.find((c) => c.id === choice)!, content).available
+    const s = newGame(content, 'linguist', 1, 0)
+    // 와이탄: 밤(E12)의 야경 사진 → 낮(E02)의 노신사 선택지
+    expect(avail(s, 'E02', 'elder_photo')).toBe(false)
+    expect(avail({ ...s, items: [...s.items, 'night_photo'] }, 'E02', 'elder_photo')).toBe(true)
+    // 예원: 성황묘(E04C)의 향 → 옥영롱(E04B)의 선택지
+    expect(avail(s, 'E04B', 'incense')).toBe(false)
+    expect(avail({ ...s, items: [...s.items, 'incense'] }, 'E04B', 'incense')).toBe(true)
+    // 성황묘를 먼저 보았다면 옥영롱에서 다시 성황묘로 가는 길은 닫힌다
+    expect(avail({ ...s, flags: ['saw-temple'] }, 'E04B', 'temple')).toBe(false)
   })
 })
 

@@ -75,6 +75,9 @@ export const items: Record<string, Item> = {
   friend_contact: { id: 'friend_contact', name: '현지 친구의 연락처', description: '공원에서 만난 상하이 사람의 메신저 아이디.' },
   tea_leaves: { id: 'tea_leaves', name: '찻잎 한 봉지', description: '찻집 주인이 싸 준 녹차.' },
   ligaotang: { id: 'ligaotang', name: '리가오탕 한 상자', description: '배즙으로 만든 상하이 전통 사탕 梨膏糖(lígāotáng).' },
+  incense: { id: 'incense', name: '성황묘의 향 한 묶음', description: '향로 앞에서 세 개를 피우고 남은 향. 아직 연기 냄새가 밴다.' },
+  old_photo: { id: 'old_photo', name: '빛바랜 룽탕 사진', description: '스쿠먼 전시관의 할아버지가 준 사진. 빨래 장대 아래 대문 하나.' },
+  portrait_sketch: { id: 'portrait_sketch', name: '골목 화가의 스케치', description: '톈쯔팡 작업실에서 그려 준 내 얼굴. 뒤로 골목 창이 보인다.' },
 }
 
 const zhCount = (min: number) => ({ type: 'counter' as const, key: 'zh', min })
@@ -241,6 +244,8 @@ export const tagLabels: Record<string, string> = {
   'culture:xiaolongbao_way': '샤오룽바오 먹는 법',
   'culture:reflection': '여행의 기록',
   'culture:street_life': '플라타너스 거리의 일상',
+  'culture:city_god': '성황묘와 도시의 수호신',
+  'culture:shikumen_renewal': '쓰임을 바꿔 살아남은 스쿠먼',
   // 음식
   'food:xiaolongbao': '샤오룽바오(小笼包)',
   'food:crab_xiaolongbao': '게살 샤오룽바오(蟹粉小笼)',
@@ -265,6 +270,10 @@ export const tagLabels: Record<string, string> = {
   'solve:order_chinese': '중국어로 주문하기',
   'solve:night_shot': '완벽한 야경 사진',
   'solve:boat_bargain': '나룻배 흥정',
+  'solve:jade_legend': '옥영롱 전설 풀이',
+  'solve:fortune_slip': '성황묘 제비 풀이',
+  'solve:old_photo': '옛 사진 속 대문 찾기',
+  'solve:postcard_door': '엽서 속 대문 찾기',
   // 교류
   'social:bund_elder': '와이탄의 노신사',
   'social:garden_guide': '예원의 자원봉사 해설가',
@@ -281,6 +290,9 @@ export const tagLabels: Record<string, string> = {
   'social:dance_circle': '공원 춤 모임',
   'social:farewell': '작별 인사',
   'social:boatman': '주자자오 뱃사공',
+  'social:jazz_band': '재즈 바의 트럼펫 주자',
+  'social:shikumen_elder': '스쿠먼 전시관의 할아버지',
+  'social:pearl_students': '동방명주 줄의 학생들',
   // 숨은 발견
   'hidden:jade_rock': '옥영롱(玉玲珑)',
   'hidden:pudong_view': '강변 공원의 숨은 전망',
@@ -289,4 +301,9 @@ export const tagLabels: Record<string, string> = {
   'hidden:water_lane': '수향 마을 뒷골목',
   'hidden:lost_detour': '길 잃고 만난 풍경',
   'hidden:nanjing_rooftop': '옛 백화점 지붕 장식',
+  'hidden:bank_mosaic': '옛 은행 돔의 모자이크',
+  'hidden:shikumen_motif': '스쿠먼 집 안의 덩굴 무늬',
+  'hidden:old_lane': '옛 사진 속 대문',
+  'hidden:pearl_mirror': '탑 위에서 찾은 야경의 자리',
+  'hidden:painter_studio': '화가의 팔지 않는 그림들',
 }
