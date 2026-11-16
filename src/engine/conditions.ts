@@ -74,9 +74,10 @@ export function describeCondition(c: Condition, content: Content): string {
     case 'noItem':
       return `‘${content.items[c.item]?.name ?? c.item}’ 없을 때`
     case 'flag':
-    case 'noFlag':
     case 'eventDone':
       return '이전 여정에서 열리는 길'
+    case 'noFlag':
+      return '아직 지나지 않은 길'
     case 'visited':
       return `${content.locations[c.location]?.name ?? c.location} 방문 후`
     case 'notVisited':
@@ -102,7 +103,7 @@ export interface ChoiceAvailability {
 export function choiceAvailability(state: GameState, choice: Choice, content: Content): ChoiceAvailability {
   const missing: string[] = []
   for (const c of choice.requires ?? []) {
-    if (!evalCondition(state, c)) missing.push(describeCondition(c, content))
+    if (!evalCondition(state, c)) missing.push(c.type === 'noFlag' ? '이미 지나온 길' : describeCondition(c, content))
   }
   if (choice.cost && state.money < choice.cost) missing.push(`¥${choice.cost} 필요`)
   return { available: missing.length === 0, missing }

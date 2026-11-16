@@ -162,8 +162,8 @@ export const E02B: GameEvent = {
       text: '노신사의 안내를 따라 홀의 숨은 이야기를 듣는다',
       requires: [{ type: 'flag', flag: 'elder-friend' }],
       success: {
-        text: '노신사가 목소리를 낮춘다. 이 천장은 오랫동안 하얀 칠 아래 숨어 있다가, 수리할 때 다시 드러났다고. “我小时候根本不知道上面有画。(어릴 땐 위에 그림이 있는 줄도 몰랐어.)”\n\n그는 여덟 도시를 하나씩 손가락으로 짚어 준다. 그리고 홀을 나서며 말한다. “今晚我在那儿。(오늘 밤 나는 저기 있을 거요.)” 녹색 지붕을 가리키며.',
-        diary: '노신사의 안내로 와이탄 옛 은행 돔의 모자이크가 오랫동안 칠 아래 숨어 있었다는 이야기를 들었다. 밤에 재즈 바에서 다시 보자고 했다.',
+        text: '노신사가 목소리를 낮춘다. 이 천장은 오랫동안 하얀 칠 아래 숨어 있다가, 수리할 때 다시 드러났다고. “我小时候根本不知道上面有画。(어릴 땐 위에 그림이 있는 줄도 몰랐어.)”\n\n그는 여덟 도시를 하나씩 손가락으로 짚어 준다. 그리고 홀을 나서며 말한다. “晚上我常在那儿。(저녁이면 나는 그곳에 자주 있소.)” 녹색 지붕을 가리키며.',
+        diary: '노신사의 안내로 와이탄 옛 은행 돔의 모자이크가 오랫동안 칠 아래 숨어 있었다는 이야기를 들었다. 저녁이면 재즈 바에 자주 간다고 했다.',
         effects: {
           tags: ['hidden:bank_mosaic', 'social:bund_elder', 'culture:bund_architecture'],
           knowledge: ['f_bund'],
@@ -226,7 +226,7 @@ export const E12: GameEvent = {
   variants: [
     {
       when: [{ type: 'flag', flag: 'elder-friend' }],
-      text: ['낮에 함께 걸었던 노신사의 말이 떠오른다. “今晚我在那儿。” 녹색 지붕 아래 창문에 불이 켜져 있다.'],
+      text: ['함께 걸었던 노신사가 들려준 재즈 이야기가 떠오른다. 녹색 지붕 아래 창문에 불이 켜져 있다.'],
     },
     {
       when: [{ type: 'eventDone', event: 'E02B' }],
@@ -764,7 +764,7 @@ export const E08C: GameEvent = {
     },
     {
       when: [{ type: 'flag', flag: 'tingzijian' }],
-      text: ['다락방 낮은 천장에 찧은 이마가 아직 얼얼하다.'],
+      text: ['다락방의 낮은 천장에 이마를 찧었던 일이 떠오른다.'],
     },
   ],
   intro: [
@@ -787,7 +787,7 @@ export const E08C: GameEvent = {
       requires: [{ type: 'any', of: [{ type: 'flag', flag: 'tingzijian' }, { type: 'flag', flag: 'knows-1921' }] }],
       check: cultureCheck(40, [{ flag: 'tingzijian', bonus: 10 }, { flag: 'knows-1921', bonus: 10 }]),
       success: {
-        text: '왼쪽 장에는 일곱 가구가 나눠 쓰던 좁은 계단과 다락방, 긴 탁자 하나 놓인 작은 방. 오른쪽 장에는 같은 대문 안의 와인 잔과 조명. 두 장을 나란히 놓고 보니 알겠다. 이 골목은 박제가 아니라, 쓰임을 바꿔 가며 살아남은 집들이다.',
+        text: '왼쪽 장에는 오래된 집과 그 안에서 이어진 사람들의 이야기. 오른쪽 장에는 같은 대문 안의 와인 잔과 조명. 두 장을 나란히 놓고 보니 알겠다. 이 골목은 박제가 아니라, 쓰임을 바꿔 가며 살아남은 집들이다.',
         diary: '신톈디의 낮과 저녁을 수첩에 나란히 적으며, 스쿠먼이 쓰임을 바꿔 가며 살아남았다는 것을 깨달았다.',
         effects: { tags: ['culture:shikumen_renewal'], knowledge: ['f_xintiandi'], stats: { culture: 1 } },
       },
@@ -818,7 +818,7 @@ export const E08C: GameEvent = {
       text: '스쿠먼 건물 안의 바에서 한 잔 하며 쉰다',
       cost: 40,
       success: {
-        text: '돌 문틀 아래 작은 바. 창가에 앉아 차가운 잔을 손에 쥔다. 대문 안쪽에서 바라보는 골목은 또 다르다. 오늘 걸은 길이 잔 속에서 천천히 가라앉는다.',
+        text: '돌 문틀 아래 작은 바. 창가에 앉아 차가운 잔을 손에 쥔다. 대문 안쪽에서 바라보는 골목은 또 다르다. 걸어온 길이 잔 속에서 천천히 가라앉는다.',
         diary: '신톈디의 스쿠먼 건물 안 바에 앉아 대문 안쪽에서 골목을 바라보며 쉬었다.',
         effects: { stamina: 15 },
       },
@@ -1242,7 +1242,7 @@ export const E14C: GameEvent = {
     },
     {
       id: 'help',
-      text: '약속대로 물감 개는 일을 돕는다',
+      text: '화가의 물감 개는 일을 돕는다',
       requires: [{ type: 'flag', flag: 'painter-invite' }],
       success: {
         text: '팔레트에 물감을 짜고, 붓을 빨고, 마른 캔버스를 벽에 기대어 세운다. 화가가 골목의 회색은 검정과 흰색이 아니라 파랑과 갈색을 섞어 만든다고 알려 준다. 손톱 밑이 회색으로 물든다.',

@@ -63,6 +63,10 @@ describe('conditions', () => {
     const maglev = content.events.E01.choices.find((c) => c.id === 'maglev')!
     expect(choiceAvailability(s, maglev, content).available).toBe(false)
   })
+  it('explains that a previously visited branch is closed', () => {
+    const choice = content.events.E04B.choices.find((c) => c.id === 'temple')!
+    expect(choiceAvailability({ ...fresh(), flags: ['saw-temple'] }, choice, content).missing).toEqual(['이미 지나온 길'])
+  })
 })
 
 describe('checks', () => {
