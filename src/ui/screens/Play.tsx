@@ -65,8 +65,8 @@ function Choices({ game, ev }: { game: GameState; ev: GameEvent }) {
   })
 
   return (
-    <section aria-label="선택지" className="mt-10">
-      <p className="small-caps mb-3 text-ink-faint">어떻게 할까</p>
+    <section aria-label="선택지" className="mt-6">
+      <p className="small-caps mb-2 text-ink-faint">어떻게 할까</p>
       <ol className="m-0 list-none p-0">
         {rows.map(({ c, avail, reqs, chance }, i) => (
           <li key={c.id} className="border-t border-rule last:border-b">
@@ -134,7 +134,7 @@ function Spread({ id, head, plate, text, actions, game, entry }: {
       <div className="leaf leaf-left">
         <div className="order-2">{plate}</div>
         <div className="order-4">{actions}</div>
-        <div className="mt-6">
+        <div className="mt-5">
           <StatPanel game={game} entry={entry} variant="inline" />
         </div>
       </div>
@@ -257,7 +257,10 @@ function DestinationPage({ game }: { game: GameState }) {
                 ? '돈이 모자라 걸어서 (체력 소모 큼)'
                 : `지하철 ¥${-plan.money}`
           return (
-            <li key={ev.id} className="border-t border-rule last:border-b wide:border wide:border-rule">
+            <li
+              key={ev.id}
+              className="border-t border-rule last:border-b wide:rounded-xs wide:border wide:border-rule wide:bg-[var(--paper-note)] wide:shadow-[0_2px_8px_rgba(36,25,14,0.06)] wide:transition-colors wide:hover:border-seal"
+            >
               <button onClick={() => go(ev.id)} className="group flex w-full cursor-pointer gap-4 bg-transparent px-1 py-4 text-left wide:h-full wide:flex-col wide:gap-3 wide:p-0 wide:pb-4">
                 {photo && (
                   <img

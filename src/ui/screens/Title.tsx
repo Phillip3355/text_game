@@ -23,9 +23,12 @@ export function Title() {
         }
         right={
           <>
-            <header className="order-1 mt-6 mb-8 text-center sm:mt-12 wide:mt-0">
-              <p className="small-caps m-0 text-ink-faint">A Travel Book in Twelve Scenes</p>
-              <p className="m-0 mt-6 text-5xl tracking-[0.3em] text-seal sm:text-6xl" aria-hidden="true">
+            <header className="ex-libris order-1 mt-6 mb-8 text-center sm:mt-10 wide:mt-0">
+              <p className="small-caps m-0 text-ink-faint">A Travel Diary in Twelve Scenes</p>
+              <p
+                className="mx-auto mt-5 mb-0 inline-block border-2 border-seal/80 px-4 py-1.5 text-4xl tracking-[0.28em] text-seal sm:text-5xl"
+                aria-hidden="true"
+              >
                 上海
               </p>
               <h1 className="m-0 mt-4 text-[1.9rem] font-semibold tracking-wide">상하이 여행기</h1>

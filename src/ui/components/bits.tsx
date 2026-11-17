@@ -63,7 +63,7 @@ export function StatPanel({ game, entry, variant }: { game: GameState; entry?: L
   )
   if (variant === 'inline')
     return (
-      <div className="hidden border-t border-rule pt-3 wide:block" aria-label="여행자 상태">
+      <div className="ledger-strip hidden wide:block" aria-label="여행자 상태">
         {body}
       </div>
     )
@@ -116,8 +116,8 @@ export function PlaceLine({ locationId, place }: { locationId: string; place?: s
 export function FactNotes({ ids, owned }: { ids: string[]; owned?: string[] }) {
   if (!ids.length) return null
   return (
-    <aside className="my-8 border-l-2 border-seal/60 pl-4" aria-label="관광·문화 메모">
-      <p className="small-caps mb-2 text-ink-faint">여백의 메모</p>
+    <aside className="field-note my-8" aria-label="관광·문화 메모">
+      <p className="small-caps m-0 mb-2 text-seal">여백의 메모</p>
       {ids.map((id) => {
         const f = content.facts[id]
         if (!f) return null
@@ -164,7 +164,7 @@ export function Gains({ entry }: { entry: LogEntry }) {
   return (
     <div className="my-6 text-sm text-ink-soft">
       {g.achievements.map((a) => (
-        <p key={a} className="noindent mb-2 border border-seal/50 px-3 py-2 text-seal">
+        <p key={a} className="stamp-box noindent mb-2 px-3 py-2 text-seal">
           업적 달성 — <b className="font-semibold">{content.achievements[a]?.name}</b>
           <span className="ml-2 text-xs">{content.achievements[a]?.bonusText}</span>
         </p>

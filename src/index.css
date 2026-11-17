@@ -2,37 +2,59 @@
 @import '@fontsource/noto-serif-kr/400.css';
 @import '@fontsource/noto-serif-kr/600.css';
 
-/* ── 종이와 잉크 ─────────────────────────────────────────── */
+/* ── 공책, 책상, 만년필 잉크 ──────────────────────────────── */
 :root {
-  --paper: #f5f0e6;
-  --paper-deep: #ece5d7;
-  --ink: #2a2521;
-  --ink-soft: #5a5149;
-  --ink-faint: #8a8076;
-  --rule: #d8cebd;
-  --seal: #a3352b;
-  --seal-soft: #a3352b1a;
-  --ok: #3f6b4a;
+  --desk: #e9e5dd;
+  --desk-deep: #dcd7cd;
+  --cover: #685546;
+  --cover-edge: #4f3f33;
+  --paper: #fcfbf8;
+  --paper-deep: #efece5;
+  --paper-note: #f7f5f0;
+  --photo-mat: #ffffff;
+  --ink: #24211e;
+  --ink-soft: #57524c;
+  --ink-faint: #878078;
+  --rule: #e3ded4;
+  --ruled-line: rgba(110, 102, 92, 0.1);
+  --margin-rule: rgba(162, 68, 56, 0.18);
+  --spine-shadow: rgba(48, 42, 34, 0.08);
+  --seal: #9b3328;
+  --seal-soft: rgba(155, 51, 40, 0.09);
+  --tape: rgba(242, 237, 224, 0.78);
+  --tape-edge: rgba(196, 188, 168, 0.45);
+  --ok: #3b6947;
   --text-scale: 1;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --paper: #1c1a17;
-    --paper-deep: #24211d;
-    --ink: #e6ded1;
-    --ink-soft: #b9afa1;
-    --ink-faint: #8a8174;
-    --rule: #3a352e;
-    --seal: #d06a5c;
-    --seal-soft: #d06a5c22;
+    --desk: #13110e;
+    --desk-deep: #0c0a08;
+    --cover: #362a20;
+    --cover-edge: #241b14;
+    --paper: #201c17;
+    --paper-deep: #29231d;
+    --paper-note: #26211b;
+    --photo-mat: #2c261f;
+    --ink: #e8dfd0;
+    --ink-soft: #bdb1a0;
+    --ink-faint: #8d8171;
+    --rule: #3c342b;
+    --ruled-line: rgba(214, 194, 165, 0.08);
+    --margin-rule: rgba(212, 115, 99, 0.2);
+    --spine-shadow: rgba(0, 0, 0, 0.42);
+    --seal: #d47363;
+    --seal-soft: rgba(212, 115, 99, 0.14);
+    --tape: rgba(122, 108, 82, 0.48);
+    --tape-edge: rgba(168, 150, 116, 0.25);
     --ok: #8fbf98;
     color-scheme: dark;
   }
 }
 
-/* 넓은 화면(가로 화면 폰, 펼친 폴드, 태블릿 가로, 데스크톱): 두 쪽 펼침면 */
+/* 넓은 화면(가로 화면 폰, 펼친 폴드, 태블릿 가로, 데스크톱): 두 쪽 펼침 공책 */
 @custom-variant wide (@media (min-width: 640px) and (min-aspect-ratio: 4/5));
 
 @theme {
@@ -49,115 +71,292 @@
 }
 
 @layer base {
-html {
-  font-size: calc(17px * var(--text-scale));
-  -webkit-text-size-adjust: 100%;
-}
-html[data-text='small'] { --text-scale: 0.9; }
-html[data-text='large'] { --text-scale: 1.15; }
-
-body {
-  margin: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-serif);
-  line-height: 1.85;
-  word-break: keep-all;
-  overflow-wrap: break-word;
-  -webkit-font-smoothing: antialiased;
-}
-
-}
-
-@layer components {
-/* the page: a single, book-width column */
-.page {
-  max-width: 38rem;
-  margin: 0 auto;
-  padding: 1.25rem 1rem 6rem;
-}
-@media (min-width: 640px) {
-  .page { padding: 2.5rem 2rem 7rem; }
-}
-
-.prose-book p { margin: 0 0 1.1em; text-indent: 1em; }
-.prose-book p.noindent { text-indent: 0; }
-
-.small-caps { letter-spacing: 0.18em; font-size: 0.72rem; text-transform: uppercase; }
-
-.rule { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
-.ornament { text-align: center; color: var(--ink-faint); letter-spacing: 1em; margin: 2rem 0; }
-
-/* plates (photos) */
-.plate img, .plate video { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; background: var(--paper-deep); }
-.plate figcaption { font-size: 0.72rem; color: var(--ink-faint); line-height: 1.5; margin-top: 0.4rem; }
-
-/* spread: one column on phones, two facing pages on wide screens */
-.spread { display: flex; flex-direction: column; }
-.spread > .leaf { display: contents; }
-@media (min-width: 640px) and (min-aspect-ratio: 4/5) {
-  .page-wide { max-width: 78rem; }
-  .spread { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 3rem; align-items: start; }
-  .spread > .leaf { display: block; }
-  .spread > .leaf-left {
-    position: sticky; top: 1rem; max-height: calc(100svh - 2rem); overflow-y: auto;
-    padding-right: 0.25rem; scrollbar-width: thin;
+  html {
+    font-size: calc(17px * var(--text-scale));
+    -webkit-text-size-adjust: 100%;
   }
-  .spread > .leaf-right { border-left: 1px solid var(--rule); padding-left: 3rem; min-height: calc(100svh - 8rem); }
-  .spread .plate img, .spread .plate video { max-height: 42svh; }
-  /* cover-like screens: both pages vertically centred, no sticky */
-  .spread-center { align-items: center; min-height: calc(100svh - 8rem); }
-  .spread-center > .leaf-left { position: static; max-height: none; overflow: visible; }
-  .spread-center > .leaf-right { min-height: 0; }
-  .spread-center .plate img, .spread-center .plate video { max-height: 70svh; }
-}
-@media (min-width: 640px) and (min-aspect-ratio: 4/5) and (max-height: 520px) {
-  .spread .plate img, .spread .plate video { max-height: 34svh; }
-  .spread .plate figcaption { margin-top: 0.2rem; }
-}
+  html[data-text='small'] { --text-scale: 0.9; }
+  html[data-text='large'] { --text-scale: 1.15; }
 
-/* page turn */
-.fade-in { animation: fade 0.45s ease both; }
-@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-html[data-motion='reduce'] .fade-in { animation: none; }
-@media (prefers-reduced-motion: reduce) { .fade-in { animation: none; } }
+  body {
+    margin: 0;
+    min-height: 100svh;
+    overflow-x: clip;
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-serif);
+    line-height: 1.85;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+  }
 
-}
-
-@layer base {
-button { font-family: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--seal); outline-offset: 3px; }
+  button { font-family: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--seal); outline-offset: 3px; }
 }
 
 @layer components {
+  /* ── 모바일: 한 장씩 넘기는 수첩 ─────────────────────────── */
+  .page {
+    position: relative;
+    max-width: 38rem;
+    margin: 0 auto;
+    padding: 1.25rem 1rem 6rem;
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(to right, transparent 0.55rem, var(--margin-rule) 0.55rem, var(--margin-rule) calc(0.55rem + 1px), transparent calc(0.55rem + 1px));
+  }
 
-.link {
-  background: none; border: 0; padding: 0; cursor: pointer;
-  color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule);
-  text-underline-offset: 0.25em; text-decoration-thickness: 1px;
-}
-.link:hover { text-decoration-color: var(--seal); color: var(--seal); }
+  /* ── 넓은 화면: 책상 위에 펼친 가죽 양장 공책 ───────────── */
+  @media (min-width: 640px) {
+    body {
+      background-color: var(--desk);
+      background-image:
+        radial-gradient(ellipse at 50% 0%, rgba(255, 250, 240, 0.25), transparent 65%),
+        radial-gradient(ellipse at 50% 100%, var(--desk-deep), transparent 70%);
+    }
+    .page {
+      margin: 1.5rem auto;
+      padding: 2.25rem 2.25rem 3.5rem;
+      border-radius: 6px;
+      border: 1px solid var(--cover-edge);
+      background-image: none;
+      box-shadow:
+        0 0 0 4px var(--cover),
+        0 0 0 5px var(--cover-edge),
+        0 18px 42px -12px rgba(24, 16, 8, 0.34),
+        inset 0 0 40px rgba(130, 102, 68, 0.06);
+    }
+    /* 오른쪽 위 가죽 공책의 붉은 갈피 리본 */
+    .page::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      right: 2.4rem;
+      width: 14px;
+      height: 30px;
+      background: linear-gradient(to bottom, var(--seal), #7d251c);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%);
+      opacity: 0.88;
+      pointer-events: none;
+    }
+  }
 
-/* buttons: thin ruled boxes, always-readable ink text */
-.btn {
-  min-height: 2.75rem; padding: 0.5rem 1.25rem; cursor: pointer;
-  border: 1px solid var(--rule); background: transparent; color: var(--ink);
-  font-size: 0.95rem; transition: border-color .15s, color .15s;
-}
-.btn:hover:not(:disabled) { border-color: var(--seal); color: var(--seal); }
-.btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.btn-primary { border: 1.5px solid var(--ink); font-weight: 600; }
-.btn-on { border: 1.5px solid var(--ink); font-weight: 600; background: var(--paper-deep); }
+  /* 공책 줄무늬 본문 */
+  .prose-book {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent calc(1.85em - 1px),
+      var(--ruled-line) calc(1.85em - 1px),
+      var(--ruled-line) 1.85em
+    );
+  }
+  .prose-book p { margin: 0 0 1.85em; text-indent: 1em; }
+  .prose-book p:last-child { margin-bottom: 0.5em; }
+  .prose-book p.noindent { text-indent: 0; }
+
+  .small-caps { letter-spacing: 0.18em; font-size: 0.72rem; text-transform: uppercase; }
+
+  .rule { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+  .ornament { text-align: center; color: var(--ink-faint); letter-spacing: 1em; margin: 2rem 0; }
+
+  /* ── 공책에 테이프로 붙인 여행 사진 도판 ────────────────── */
+  .plate {
+    position: relative;
+    padding: 0.5rem 0.5rem 0.6rem;
+    background: var(--photo-mat);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    box-shadow:
+      0 3px 10px -3px rgba(36, 25, 14, 0.14),
+      0 1px 2px rgba(36, 25, 14, 0.08);
+  }
+  /* 상단 반투명 마스킹 테이프 장식 */
+  .plate::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    width: 4.5rem;
+    height: 15px;
+    transform: translateX(-50%) rotate(-1.5deg);
+    background: var(--tape);
+    border-left: 1px dashed var(--tape-edge);
+    border-right: 1px dashed var(--tape-edge);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .plate img, .plate video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    background: var(--paper-deep);
+    border-radius: 1px;
+  }
+  .plate figcaption {
+    font-size: 0.73rem;
+    color: var(--ink-faint);
+    line-height: 1.5;
+    margin-top: 0.45rem;
+    padding: 0 0.15rem;
+  }
+
+  /* ── 두 쪽 펼침면(노트 스프링/제본 접힘선) ─────────────── */
+  .spread { display: flex; flex-direction: column; }
+  .spread > .leaf { display: contents; }
+  @media (min-width: 640px) and (min-aspect-ratio: 4/5) {
+    .page-wide {
+      max-width: 78rem;
+      padding: 2rem 2.75rem 3rem;
+      /* 양쪽 책배(페이지 여러 장 겹친 두께감) */
+      box-shadow:
+        -6px 0 0 -2px var(--paper-deep),
+        -7px 0 0 -2px var(--rule),
+        6px 0 0 -2px var(--paper-deep),
+        7px 0 0 -2px var(--rule),
+        0 0 0 6px var(--cover),
+        0 0 0 7px var(--cover-edge),
+        0 22px 50px -14px rgba(20, 13, 6, 0.42),
+        inset 0 0 48px rgba(128, 98, 62, 0.06);
+    }
+    .spread {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 0 3.25rem;
+      align-items: stretch;
+    }
+    .spread > .leaf { display: block; }
+    .spread > .leaf-left {
+      padding-right: 0.5rem;
+    }
+    .spread > .leaf-right {
+      position: relative;
+      border-left: 1px solid var(--rule);
+      padding-left: 3.25rem;
+      min-height: calc(100svh - 10rem);
+      background-image:
+        linear-gradient(to right, var(--spine-shadow), transparent 28px);
+    }
+    /* 가운데 제본 실선(스티치) */
+    .spread > .leaf-right::before {
+      content: '';
+      position: absolute;
+      top: 0.5rem;
+      bottom: 0.5rem;
+      left: -2px;
+      width: 3px;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        var(--ink-faint) 0 6px,
+        transparent 6px 26px
+      );
+      opacity: 0.28;
+      pointer-events: none;
+    }
+    .spread .plate { margin-bottom: 1.25rem; }
+    .spread .plate img, .spread .plate video { max-height: 36svh; }
+    .spread-center { align-items: center; min-height: calc(100svh - 9.5rem); }
+    .spread-center > .leaf-right { min-height: 0; }
+    .spread-center .plate img, .spread-center .plate video { max-height: 64svh; }
+  }
+  @media (min-width: 640px) and (min-aspect-ratio: 4/5) and (max-height: 520px) {
+    .spread .plate img, .spread .plate video { max-height: 34svh; }
+    .spread .plate figcaption { margin-top: 0.2rem; }
+  }
+
+  /* ── 쪽지/메모·도장·장서표(Ex-libris) ──────────────────── */
+  .field-note {
+    position: relative;
+    background: var(--paper-note);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--seal);
+    border-radius: 2px;
+    padding: 0.9rem 1.1rem;
+    box-shadow: 0 2px 6px rgba(36, 25, 14, 0.06);
+  }
+  .stamp-box {
+    border: 1.5px dashed var(--seal);
+    background: var(--seal-soft);
+    border-radius: 3px;
+  }
+  .ex-libris {
+    border: 1px solid var(--rule);
+    padding: 1.5rem 1.5rem 1.75rem;
+    background:
+      linear-gradient(to bottom, var(--paper-note), var(--paper));
+    box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px var(--rule);
+  }
+  .ledger-strip {
+    background: var(--paper-note);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 0.65rem 0.85rem;
+  }
+
+  /* page turn */
+  .fade-in { animation: fade 0.45s ease both; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  html[data-motion='reduce'] .fade-in { animation: none; }
+  @media (prefers-reduced-motion: reduce) { .fade-in { animation: none; } }
+
+  .link {
+    background: none; border: 0; padding: 0; cursor: pointer;
+    color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule);
+    text-underline-offset: 0.25em; text-decoration-thickness: 1px;
+  }
+  .link:hover { text-decoration-color: var(--seal); color: var(--seal); }
+
+  /* 버튼: 문구류 종이 라벨과 만년필 잉크 테두리 */
+  .btn {
+    min-height: 2.75rem; padding: 0.5rem 1.25rem; cursor: pointer;
+    border: 1px solid var(--rule); border-radius: 3px;
+    background: var(--paper-note); color: var(--ink);
+    font-size: 0.95rem;
+    box-shadow: 0 1px 0 var(--rule);
+    transition: border-color .15s, color .15s, background-color .15s, transform .1s;
+  }
+  .btn:hover:not(:disabled) { border-color: var(--seal); color: var(--seal); background: var(--paper); }
+  .btn:active:not(:disabled) { transform: translateY(1px); box-shadow: none; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+  .btn-primary {
+    border: 1.5px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 600;
+    box-shadow: 0 2px 0 var(--cover-edge);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--seal);
+    border-color: var(--seal);
+    color: var(--photo-mat);
+  }
+  .btn-on {
+    border: 1.5px solid var(--seal);
+    font-weight: 600;
+    background: var(--seal-soft);
+    color: var(--seal);
+  }
 }
 
-/* ── print: the diary becomes a book ───────────────────── */
+/* ── 인쇄: 공책을 실제 한 권의 책으로 출력 ───────────────── */
 @media print {
-  :root { --paper: #fff; --ink: #000; --ink-soft: #333; --ink-faint: #555; --rule: #bbb; --seal: #8a2a22; }
+  :root {
+    --paper: #fff; --paper-deep: #f5f5f5; --paper-note: #fafafa; --photo-mat: #fff;
+    --ink: #000; --ink-soft: #333; --ink-faint: #555; --rule: #bbb; --seal: #8a2a22;
+    --ruled-line: transparent; --margin-rule: transparent; --spine-shadow: transparent;
+  }
+  body { background: #fff !important; background-image: none !important; font-size: 11pt; }
   .no-print { display: none !important; }
-  .page { max-width: none; padding: 0; }
+  .page, .page-wide { max-width: none; margin: 0; padding: 0; border: 0; box-shadow: none; background-image: none; }
+  .page::after, .plate::before, .spread > .leaf-right::before { display: none; }
+  .plate { box-shadow: none; border-color: #ccc; break-inside: avoid; }
   .print-break { break-before: page; }
-  .plate { break-inside: avoid; }
   .spread { display: flex !important; flex-direction: column; }
   .spread > .leaf { display: contents !important; }
-  body { font-size: 11pt; }
+  .spread > .leaf-right { border-left: 0; padding-left: 0; background-image: none; }
 }

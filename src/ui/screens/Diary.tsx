@@ -40,9 +40,9 @@ export function ScoreTable({ d }: { d: DiaryT }) {
 function DiaryCover({ d }: { d: DiaryT }) {
   const date = new Date(d.createdAt).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
   return (
-      <header className="mb-12 border-y border-rule py-10 text-center">
+      <header className="ex-libris mb-10 text-center">
         <p className="small-caps m-0 text-ink-faint">Travel Journal</p>
-        <p className="m-0 mt-4 text-4xl tracking-[0.3em] text-seal" aria-hidden="true">
+        <p className="mx-auto mt-4 mb-0 inline-block border border-seal/80 px-3 py-1 text-3xl tracking-[0.28em] text-seal" aria-hidden="true">
           上海
         </p>
         <h1 className="m-0 mt-3 text-2xl font-semibold">나의 상하이 여행일지</h1>
@@ -90,9 +90,9 @@ function DiaryDays({ d }: { d: DiaryT }) {
     <>
       {d.days.map((day) => (
         <section key={day.day} className="print-break mb-12">
-          <h2 className="m-0 mb-6 border-b border-rule pb-2 text-xl font-semibold">
-            <span className="small-caps mr-3 font-normal text-seal">Day {day.day}</span>
-            {DAY_NAME[day.day]}
+          <h2 className="m-0 mb-6 flex items-baseline gap-3 border-b-2 border-rule pb-2 text-xl font-semibold">
+            <span className="small-caps border border-seal/60 bg-seal-soft px-2 py-0.5 font-normal text-seal">Day {day.day}</span>
+            <span>{DAY_NAME[day.day]}</span>
           </h2>
           {day.entries.map((e) => (
             <div key={e.seq} className="mb-10">
