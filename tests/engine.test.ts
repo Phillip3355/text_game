@@ -6,6 +6,7 @@ import {
   applyEffects,
   buildDiary,
   choiceAvailability,
+  chooseDestination,
   computeChance,
   computeScore,
   decideEnding,
@@ -155,6 +156,47 @@ describe('progression', () => {
     expect(n.currentEventId).toBe('E20')
     const done = advance(applyChoice(n, content, 'quiet').state, content)
     expect(done.phase).toBe('ended')
+  })
+  it('returns to the hotel area overnight without adding it to visited', () => {
+    const s = {
+      ...applyChoice(fresh(), content, 'app').state,
+      slotIndex: 3,
+      location: 'bund',
+      visited: ['pudong_airport', 'bund'],
+    }
+    const n = advance(s, content)
+    expect(n.slotIndex).toBe(4)
+    expect(n.location).toBe('peoples_square')
+    expect(n.visited).toEqual(['pudong_airport', 'bund'])
+  })
+  it('charges metro fare only once when E07 intercepts a destination trip', () => {
+    // find a seed that triggers E07 on chooseDestination to bund (distance 1 from peoples_square → ¥4)
+    let intercepted: GameState | null = null
+    for (let rng = 1; rng < 200; rng++) {
+      const base: GameState = {
+        ...fresh('linguist', 1),
+        rng,
+        slotIndex: 1,
+        location: 'peoples_square',
+        money: 100,
+        stamina: 80,
+        log: fresh().log.concat(applyChoice(fresh(), content, 'app').entry!, applyChoice(fresh(), content, 'app').entry!),
+        phase: 'destination',
+        currentEventId: null,
+        destinationOptions: ['E03'],
+      }
+      const next = chooseDestination(base, content, 'E03')
+      if (next.currentEventId === 'E07') {
+        intercepted = next
+        break
+      }
+    }
+    expect(intercepted).not.toBeNull()
+    expect(intercepted!.money).toBe(100)
+    const afterMetro = applyChoice(intercepted!, content, 'read').state
+    const arrived = advance(afterMetro, content)
+    expect(arrived.currentEventId).toBe('E03')
+    expect(arrived.money).toBe(96) // charged ¥4 once, not ¥8
   })
 })
 

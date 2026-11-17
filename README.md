@@ -26,7 +26,7 @@ npm run test:e2e     # 실제 브라우저(데스크톱/모바일)로 표지→�
 | 경로 | 내용 |
 |---|---|
 | `src/engine/` | React와 무관한 순수 TS 게임 엔진 — 조건, 확률 판정, 효과, 일정·스케줄러, 점수, 엔딩, 여행일지, 저장 검증 |
-| `src/content/` | 데이터만: 사건 25개(`events/`), 장소·여행자·아이템·업적·엔딩(`world.ts`), 출처가 달린 관광 정보(`facts.ts`), 미디어 메타(`media.ts`, 자동 생성) |
+| `src/content/` | 데이터만: 사건 34개(`events/`), 장소·여행자·아이템·업적·엔딩(`world.ts`), 출처가 달린 관광 정보(`facts.ts`), 미디어 메타(`media.ts`, 자동 생성) |
 | `src/store/` | Zustand 스토어, LocalStorage 저장, WebAudio 효과음 |
 | `src/ui/` | 책 레이아웃 화면들 |
 | `scripts/media/` | Wikimedia Commons 검색 → 접촉 인화지로 수동 선별(`selection.json`) → 다운로드·메타 생성(`build_media.py`) |

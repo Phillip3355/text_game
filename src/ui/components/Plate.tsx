@@ -19,14 +19,14 @@ interface Props {
  * and attribution. If the video fails, the place's photo is shown; if every
  * photo fails, a plain notice — never an unrelated image.
  */
-export function Plate({ media, video, compact, eager }: Props) {
+export function Plate(props: Props) {
+  const key = props.media.join('|') + (props.video ?? '')
+  return <PlateInner key={key} {...props} />
+}
+
+function PlateInner({ media, video, compact, eager }: Props) {
   const [idx, setIdx] = useState(0)
   const [videoFailed, setVideoFailed] = useState(false)
-  const key = media.join('|') + (video ?? '')
-  useEffect(() => {
-    setIdx(0)
-    setVideoFailed(false)
-  }, [key])
 
   const v = video && !videoFailed ? content.media[video] : undefined
   const photo = content.media[media[idx]]
@@ -165,16 +165,4 @@ function PlateVideo({ v, poster, alt, onFail }: { v: MediaAsset; poster?: string
       </button>
     </div>
   )
-}
-
-/** Warm the browser cache for upcoming plates. */
-export function preloadMedia(ids: string[]) {
-  for (const id of ids) {
-    const m = content.media[id]
-    if (!m || m.kind !== 'image') continue
-    const img = new Image()
-    img.srcset = m.srcSmall ? `${url(m.srcSmall)} 800w, ${url(m.src)} 1280w` : ''
-    img.sizes = '(max-width: 640px) 100vw, 38rem'
-    img.src = url(m.src)
-  }
 }

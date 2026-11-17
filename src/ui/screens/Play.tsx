@@ -13,7 +13,8 @@ import {
 } from '../../engine'
 import type { GameEvent, GameState, LogEntry } from '../../engine'
 import { useGame } from '../../store/game'
-import { Plate, preloadMedia } from '../components/Plate'
+import { Plate } from '../components/Plate'
+import { preloadMedia } from '../components/preloadMedia'
 import { Button, FactNotes, Gains, PlaceLine, RunningHead, StatPanel } from '../components/bits'
 import { InGameMenu } from './InGameMenu'
 

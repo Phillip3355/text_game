@@ -7,15 +7,16 @@ export const E07: GameEvent = {
   id: 'E07',
   title: '지하철 환승의 미로',
   location: 'here',
-  place: '지하철 인민광장역',
+  place: '지하철 환승역',
   kind: 'chance',
   category: 'transport',
-  weight: 0.4,
+  // 일반 우연 사건으로는 끼어들지 않고, 실제 지하철 이동 시 chooseDestination에서만 발동한다.
+  weight: 0,
   video: 'video-metro',
   media: ['metro-1', 'metro-2', 'metro-3'],
   facts: ['f_metro'],
   intro: [
-    '인민광장(人民广场)역. 세 개의 노선이 만나는 환승역은 지하 도시 같다. 사람들이 각자의 방향으로 거침없이 흐르고, 바닥의 색색 화살표는 서로 엇갈린다.',
+    '복잡한 지하철 환승역. 여러 노선이 만나는 통로는 지하 도시 같다. 사람들이 각자의 방향으로 거침없이 흐르고, 바닥의 색색 화살표는 서로 엇갈린다.',
     '출구 번호와 노선 색깔이 머릿속에서 뒤섞인다. 열차가 들어오는 소리가 어디서 나는지도 모르겠다.',
   ],
   choices: [
@@ -26,7 +27,7 @@ export const E07: GameEvent = {
       success: {
         media: 'metro-3',
         text: '노선마다 색이 있다. 1호선은 빨강, 2호선은 초록, 8호선은 파랑. 색깔 화살표만 따라가면 된다는 걸 깨닫자 미로가 지도로 바뀐다. 갈아탈 승강장에 정확히 도착했다.',
-        diary: '인민광장역의 복잡한 환승 통로에서 노선 색깔의 규칙을 깨닫고 혼자 길을 찾았다.',
+        diary: '복잡한 지하철 환승 통로에서 노선 색깔의 규칙을 깨닫고 혼자 길을 찾았다.',
         effects: { tags: ['solve:metro', 'culture:metro'], knowledge: ['f_metro'], count: ['nav'], stats: { observation: 1 } },
       },
       failure: {

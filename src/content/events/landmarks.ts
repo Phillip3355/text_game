@@ -21,7 +21,7 @@ export const E02: GameEvent = {
   location: 'bund',
   kind: 'destination',
   category: 'sight',
-  slots: [0, 1, 2],
+  slots: [0, 1],
   weight: 1.4,
   video: 'video-bund',
   media: ['bund-1', 'bund-2', 'bund-3'],
@@ -124,6 +124,7 @@ export const E02B: GameEvent = {
   location: 'bund',
   kind: 'followup',
   category: 'sight',
+  slots: [1, 2],
   media: ['bund-2', 'bund-1'],
   facts: ['f_bund', 'f_peace_jazz'],
   variants: [
@@ -180,7 +181,7 @@ export const E02B: GameEvent = {
       requires: [{ type: 'flag', flag: 'heard-jazz' }],
       check: zhCheck(35, [{ stat: 'social', per: 5 }]),
       success: {
-        text: '아르데코 무늬의 회전문, 팔각형 유리 천장 아래 로비. 프런트 직원이 공연 시간을 적어 주며 덧붙인다. “早点来，前面有位子。(일찍 오면 앞자리가 있어요.)”\n\n저녁까지 강변에서 기다리기로 한다.',
+        text: '아르데코 무늬의 회전문, 팔각형 유리 천장 아래 로비. 프런트 직원이 공연 시간을 적어 주며 덧붙인다. “早点来，前面有位子。(일찍 오면 앞자리가 있어요.)”\n\n저녁에 다시 와 볼 이유가 생겼다.',
         diary: '화평반점 로비에 들러 중국어로 재즈 공연 시간을 물었다. 일찍 오면 앞자리가 있다고 했다.',
         effects: { tags: ['sight:bund'], knowledge: ['f_peace_jazz'], setFlags: ['jazz-seat'], count: ['zh'], followUp: 'E12' },
       },
@@ -193,6 +194,7 @@ export const E02B: GameEvent = {
     {
       id: 'wait',
       text: '강변 벤치에 앉아 해가 질 때까지 머문다',
+      requires: [{ type: 'noFlag', flag: 'saw-bund-night' }],
       success: {
         text: '시계탑의 종이 한 번, 또 한 번 울린다. 강 위로 화물선이 느릿느릿 지나가고, 하늘빛이 조금씩 묽어진다. 이 거리가 밤에 어떻게 변하는지 보고 가기로 한다.',
         diary: '와이탄 강변 벤치에 앉아 시계탑 종소리를 들으며 해가 지기를 기다렸다.',
@@ -250,7 +252,7 @@ export const E12: GameEvent = {
         media: 'huangpu_night-3',
         text: '퇴근하는 사람들 틈에 섞여 페리에 오른다. 자전거를 끌고 탄 사람도 있다. 강 한가운데에서 돌아보면 양쪽 강변이 모두 빛이다. 푸시와 푸둥 — 강이 나누고 강이 잇는 도시.',
         diary: '시민들이 타는 페리를 타고 밤의 황푸강을 건넜다. 강 한가운데서 양쪽 강변의 불빛을 모두 보았다.',
-        effects: { tags: ['sight:huangpu_night', 'culture:huangpu'], knowledge: ['f_huangpu'], stamina: -4 },
+        effects: { tags: ['sight:huangpu_night', 'culture:huangpu'], knowledge: ['f_huangpu'], setFlags: ['saw-bund-night'], stamina: -4 },
       },
     },
     {
@@ -261,7 +263,7 @@ export const E12: GameEvent = {
         media: 'huangpu_night-2',
         text: '갑판 위로 밤바람이 분다. 와이탄과 루자쭈이 사이를 천천히 오르내리는 한 시간. 건물들이 빛의 그림책처럼 한 장씩 넘어간다.',
         diary: '유람선을 타고 밤의 황푸강을 오르내리며 빛나는 와이탄과 루자쭈이를 바라보았다.',
-        effects: { tags: ['sight:huangpu_night', 'culture:huangpu'], knowledge: ['f_huangpu'], stamina: 10 },
+        effects: { tags: ['sight:huangpu_night', 'culture:huangpu'], knowledge: ['f_huangpu'], setFlags: ['saw-bund-night'], stamina: 10 },
       },
     },
     {
@@ -271,12 +273,12 @@ export const E12: GameEvent = {
       success: {
         text: '난간 끝, 가로등 기둥에 휴대폰을 기대어 흔들림을 막는다. 셔터를 누르는 순간 유람선 한 척이 화면 한가운데로 미끄러져 들어온다. 완벽한 한 장.',
         diary: '황푸강 야경을 찍다가 유람선이 화면 한가운데로 들어오는 완벽한 순간을 담았다.',
-        effects: { tags: ['sight:huangpu_night', 'solve:night_shot'], addItems: ['night_photo'], stamina: -4 },
+        effects: { tags: ['sight:huangpu_night', 'solve:night_shot'], addItems: ['night_photo'], setFlags: ['saw-bund-night'], stamina: -4 },
       },
       failure: {
         text: '찍는 사진마다 누군가의 머리나 셀카봉이 걸린다. 결국 휴대폰을 내리고 눈으로 본다. 그것도 나쁘지 않다.',
         diary: '황푸강 야경 사진은 실패했지만, 휴대폰을 내리고 눈으로 오래 보았다.',
-        effects: { tags: ['sight:huangpu_night'], stamina: -4 },
+        effects: { tags: ['sight:huangpu_night'], setFlags: ['saw-bund-night'], stamina: -4 },
       },
     },
     {
@@ -291,13 +293,14 @@ export const E12: GameEvent = {
         effects: {
           tags: ['sight:huangpu_night', 'culture:old_jazz', 'social:jazz_band'],
           knowledge: ['f_peace_jazz'],
+          setFlags: ['saw-bund-night'],
           stamina: 5,
         },
       },
       failure: {
         text: '바는 이미 만석이다. 입구 쪽 기둥 옆에 서서 듣는다. 사람들 머리 사이로 트럼펫의 금빛이 번쩍인다. 1930년대의 상하이가 기둥 너머에서 흘러나온다.',
         diary: '화평반점 재즈 바가 만석이라 입구 기둥 옆에 서서 올드 재즈를 들었다.',
-        effects: { tags: ['sight:huangpu_night', 'culture:old_jazz'], knowledge: ['f_peace_jazz'] },
+        effects: { tags: ['sight:huangpu_night', 'culture:old_jazz'], knowledge: ['f_peace_jazz'], setFlags: ['saw-bund-night'] },
       },
     },
   ],
@@ -584,7 +587,7 @@ export const E08: GameEvent = {
   kind: 'destination',
   category: 'culture',
   weight: 1.3,
-  slots: [1, 2],
+  slots: [1],
   media: ['xintiandi-1', 'xintiandi-3', 'xintiandi-2'],
   facts: ['f_shikumen', 'f_xintiandi'],
   teaser: '옛 스쿠먼 골목을 되살린 거리 — 대문 안쪽의 살림과 불이 켜지는 저녁까지',
@@ -661,6 +664,7 @@ export const E08B: GameEvent = {
   location: 'xintiandi',
   kind: 'followup',
   category: 'culture',
+  slots: [2],
   media: ['xintiandi-3', 'xintiandi-1'],
   facts: ['f_shikumen', 'f_lilong'],
   variants: [

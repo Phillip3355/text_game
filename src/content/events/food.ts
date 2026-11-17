@@ -233,7 +233,6 @@ export const E23: GameEvent = {
   location: 'yuyuan',
   kind: 'followup',
   category: 'culture',
-  slots: [0, 1, 2],
   media: ['yuyuan-3'],
   facts: ['f_huxinting', 'f_tea'],
   intro: [

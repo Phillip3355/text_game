@@ -122,6 +122,8 @@ describe('landmark arcs', () => {
     expect(avail({ ...s, items: [...s.items, 'incense'] }, 'E04B', 'incense')).toBe(true)
     // 성황묘를 먼저 보았다면 옥영롱에서 다시 성황묘로 가는 길은 닫힌다
     expect(avail({ ...s, flags: ['saw-temple'] }, 'E04B', 'temple')).toBe(false)
+    // 황푸강의 밤(E12)을 이미 보았다면 E02B에서 해 질 때까지 기다리는 길은 닫힌다
+    expect(avail({ ...s, flags: ['saw-bund-night'] }, 'E02B', 'wait')).toBe(false)
   })
 })
 

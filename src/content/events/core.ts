@@ -94,7 +94,7 @@ export const E20: GameEvent = {
       text: ['주머니 속 휴대폰이 짧게 울린다. 공원에서 만난 친구의 메시지다. “내일 떠나요? 잘 가요, 또 와요.”'],
     },
     {
-      when: [{ type: 'stamina', min: 0 }, { type: 'tagCount', prefix: 'food:', min: 3 }],
+      when: [{ type: 'tagCount', prefix: 'food:', min: 3 }],
       text: ['배는 부르지만 마음은 허전하다. 사흘 동안 먹은 것들의 이름을 손가락으로 꼽아 본다.'],
     },
   ],
@@ -163,14 +163,14 @@ export const E21: GameEvent = {
   id: 'E21',
   title: '잠깐의 쉼표',
   location: 'here',
-  place: '숙소와 근처 찻집',
+  place: '조용한 골목 쉼터',
   kind: 'rest',
   category: 'rest',
   media: ['streets-1'],
   facts: ['f_tea'],
   intro: [
     '다리가 천근이다. 계단 하나 오르는 것도 버겁다. 무리하면 남은 여행을 다 망칠지도 모른다.',
-    '숙소 근처 골목에는 오래된 찻집과 작은 발 마사지 가게가 있다. 아니면 그냥 숙소 침대에 몸을 던져도 된다.',
+    '근처 골목에는 오래된 찻집과 작은 발 마사지 가게가 있다. 아니면 숙소로 돌아가 침대에 몸을 던져도 된다.',
   ],
   choices: [
     {
